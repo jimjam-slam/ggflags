@@ -26,3 +26,7 @@ The flags in this fork of `ggflags`, from EmojiOne <https://github.com/eosrei/em
 ![](README_files/figure-markdown_github/flags.png)
 
 (note: proof of principle only)
+
+### To-do
+
+[ ] Ditch PNGs and use smaller, rescalable SVGs (or another vector format)

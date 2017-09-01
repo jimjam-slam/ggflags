@@ -1,15 +1,11 @@
 ggflags
 -------
 
-flag geom for ggplot2
+A flag geom for ggplot2. This fork uses round flags from EmojiOne, which is nice for plotting as points!
 
 ``` r
 library(ggflags)
-```
 
-    ## Loading required package: ggplot2
-
-``` r
 set.seed(1234)
 d <- data.frame(x=rnorm(50), y=rnorm(50), 
                 country=sample(c("ar","fr", "nz", "gb", "es", "ca"), 50, TRUE), 
@@ -29,4 +25,4 @@ The flags in this fork of `ggflags`, from EmojiOne <https://github.com/eosrei/em
 
 ### To-do
 
-[ ] Ditch PNGs and use smaller, rescalable SVGs (or another vector format)
+\[ \] Ditch PNGs and use smaller, rescalable SVGs (or another vector format)

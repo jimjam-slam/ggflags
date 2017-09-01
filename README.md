@@ -23,6 +23,8 @@ The flags in this fork of `ggflags`, from EmojiOne <https://github.com/eosrei/em
 
 (note: proof of principle only)
 
-### To-do
+### Installation
 
-\[ \] Ditch PNGs and use smaller, rescalable SVGs (or another vector format)
+Install with [`devtools`](https://cran.r-project.org/web/packages/devtools/):
+
+`devtools::install_github('rensa/ggflags')`

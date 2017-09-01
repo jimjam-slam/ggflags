@@ -21,7 +21,7 @@ ggplot(d, aes(x=x, y=y, country=country, size=x)) +
 
 ![](README_files/figure-markdown_github/demo-1.png)
 
-The flags are taken from wikipedia via <https://github.com/behdad/region-flags>
+The flags in this fork of `ggflags`, from EmojiOne <https://github.com/eosrei/emojione-color-font>, are used under the [Creative Commons Attribution 4.0](https://github.com/eosrei/emojione-color-font/blob/master/LICENSE.md) licence.
 
 ![](README_files/figure-markdown_github/flags.png)
 

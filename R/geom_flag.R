@@ -8,7 +8,7 @@ drawDetails.flag <- function(x, recording=FALSE){
   
   for(ii in seq_along(x$country)){
     grid.raster(x$x[ii], x$y[ii], 
-                width = x$size[ii]*unit(1,"mm"), height = x$size[ii]*unit(0.5,"mm"),
+                width = x$size[ii]*unit(1,"mm"), height = x$size[ii]*unit(1,"mm"),
                 image = .flaglist[[x$country[[ii]]]], interpolate=FALSE)
   }
 }

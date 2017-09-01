@@ -1,12 +1,18 @@
 Package: ggflags
 Type: Package
-Version: 0.0.1
-Title: What the Package Does (Title Case)
-Authors@R: c(person("Baptiste", "Auguie",
+Version: 0.0.2
+Title: ggflags
+Authors@R: c(
+  person("Baptiste", "Auguie",
     email = "baptiste.auguie@gmail.com",
-    role = c("aut", "cre")))
+    role = c("aut", "cre")),
+  person("James", "Goldie",
+    email = "me@rensa.co",
+    role = c("ctb")))
+URL: https://github.com/rensa/ggflags
+BugReports: https://github.com/rensa/ggflags/issues
 License: GPL-3
-Description: flags
+Description: Plot flags as a geom in ggplot2.
 LazyData: TRUE
 Depends:
     ggplot2

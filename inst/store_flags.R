@@ -1,7 +1,6 @@
 library(png)
 
-
-# mogrify -resize 10%  -format png -quality 75 -path ../flags *.png
+# mogrify -background none -density 625 -resize 400x400 -quality 75 -format png *.svg
 
 lf <- list.files(path="png", pattern="\\.png$", full.names = TRUE)
 

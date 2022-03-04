@@ -8,6 +8,7 @@ flagGrob <- function(x, y, country, size=1, alpha=1){
 makeContent.flag <- function(x) {
   flag_pics <- lapply(seq_along(x$country),
     function(ii) {
+      # TODO - good place to validate the flag code here!
       grImport2::pictureGrob(
         picture = .flaglist[[x$country[[ii]]]],
         x = x$x[ii], y = x$y[ii],
@@ -15,6 +16,9 @@ makeContent.flag <- function(x) {
         height = x$size[ii] * unit(1, "mm"),
         distort = FALSE)
     })
+    browser('MAKECONTENT FLAG')
+    # NOTE - this happens after ggiraph does its work, so i think
+    # interactive attributes aren't applied (the content is essentially empty at the time they're to be applied)
   setChildren(x, do.call(gList, flag_pics))
 }
 
@@ -35,8 +39,8 @@ GeomFlag <- ggproto("GeomFlag", Geom,
                       flagGrob(0.5,0.5, country=data$country,  size=data$size)
                     },
                     
-                    draw_group = function(data, panel_scales, coord) {
-                      coords <- coord$transform(data, panel_scales)     
+                    draw_panel = function(data, panel_params, coord) {
+                      coords <- coord$transform(data, panel_params)     
                       flagGrob(coords$x, coords$y, coords$country, coords$size)
                     }
 )

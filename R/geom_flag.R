@@ -1,26 +1,44 @@
 
 flagGrob <- function(x, y, country, size=1, alpha=1){
   # grob(x=x, y=y, country=country, size=size, cl = "flag")
-  gTree(x = x, y = y, country = country, size = size, cl = "flag")
-}
 
-#' @export
-makeContent.flag <- function(x) {
-  flag_pics <- lapply(seq_along(x$country),
+  message(">>> Making flag for country = ",
+    paste(country, collapse = " AND "))
+  browser()
+  
+  flag_tree <- gTree(cl = "flag")
+
+  flag_pics <- lapply(seq_along(country),
     function(ii) {
       # TODO - good place to validate the flag code here!
       grImport2::pictureGrob(
-        picture = .flaglist[[x$country[[ii]]]],
-        x = x$x[ii], y = x$y[ii],
-        width = x$size[ii] * unit(1, "mm"),
-        height = x$size[ii] * unit(1, "mm"),
+        picture = .flaglist[[country[ii]]],
+        x = x[ii], y = y[ii],
+        width = size[ii] * unit(1, "mm"),
+        height = size[ii] * unit(1, "mm"),
         distort = FALSE)
     })
-    browser('MAKECONTENT FLAG')
-    # NOTE - this happens after ggiraph does its work, so i think
-    # interactive attributes aren't applied (the content is essentially empty at the time they're to be applied)
-  setChildren(x, do.call(gList, flag_pics))
+
+  setChildren(flag_tree, do.call(gList, flag_pics))
 }
+
+# #' @export
+# makeContent.flag <- function(x) {
+  # flag_pics <- lapply(seq_along(x$country),
+  #   function(ii) {
+  #     # TODO - good place to validate the flag code here!
+  #     grImport2::pictureGrob(
+  #       picture = .flaglist[[x$country[[ii]]]],
+  #       x = x$x[ii], y = x$y[ii],
+  #       width = x$size[ii] * unit(1, "mm"),
+  #       height = x$size[ii] * unit(1, "mm"),
+  #       distort = FALSE)
+  #   })
+#     browser('MAKECONTENT FLAG')
+#     # NOTE - this happens after ggiraph does its work, so i think
+#     # interactive attributes aren't applied (the content is essentially empty at the time they're to be applied)
+#   setChildren(x, do.call(gList, flag_pics))
+# }
 
 #' @export
 scale_country <- function(..., guide = "legend") {

@@ -26,14 +26,16 @@ GeomInteractiveFlag <- ggproto(
   draw_panel = function(self, data, panel_params, coord, ..., .ipar = IPAR_NAMES) {
     zz <- GeomFlag$draw_panel(data, panel_params, coord, ...)
     coords <- coord$transform(data, panel_params)
-    browser('BEFORE ATTRIBUTE INSERTION')
     # may need to loop over the flagGrob list manually!
-    for (i in seq_along(zz$children)) {
-      zz$children[[i]] <- ggiraph:::do_add_interactive_attrs(
-        zz, coords[i, , drop = FALSE], ipar = .ipar)
-      browser(paste('AFTER ATTRIBUTE INSERTION ', i))
-    }
-    browser('ALL DONE')
-    zz
+    # for (i in seq_along(zz$children)) {
+    #   message(paste('>>> ADDING INTERACTIVE ATTRS for zz child', i))
+    #   browser()
+    #   zz$children[[i]] <- ggiraph:::do_add_interactive_attrs(
+    #     zz$children, coords[i, , drop = FALSE], ipar = .ipar)
+    #   message(paste('>>> DONE ADDING INTERACTIVE ATTRS for zz child', i))
+    #   browser()
+    # }
+    # zz
+    ggiraph:::add_interactive_attrs(zz, coords, ipar = .ipar)
   }
 )

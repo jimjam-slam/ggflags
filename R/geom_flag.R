@@ -1,10 +1,10 @@
 
-flagGrob <- function(x, y, country, size=1, alpha=1){
+flagsGrob <- function(x, y, country, size=1, alpha=1){
   # grob(x=x, y=y, country=country, size=size, cl = "flag")
 
   message(">>> Making flag for country = ",
     paste(country, collapse = " AND "))
-  browser()
+  # browser()
   
   flag_tree <- gTree(cl = "flag")
 
@@ -54,12 +54,12 @@ GeomFlag <- ggproto("GeomFlag", Geom,
                     
                     draw_key = function (data, params, size) 
                     {
-                      flagGrob(0.5,0.5, country=data$country,  size=data$size)
+                      flagsGrob(0.5,0.5, country=data$country,  size=data$size)
                     },
                     
                     draw_panel = function(data, panel_params, coord) {
                       coords <- coord$transform(data, panel_params)     
-                      flagGrob(coords$x, coords$y, coords$country, coords$size)
+                      flagsGrob(coords$x, coords$y, coords$country, coords$size)
                     }
 )
 

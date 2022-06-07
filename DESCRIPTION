@@ -16,5 +16,6 @@ Depends:
 Imports:
     grid,
     grImport2,
+    ggiraph,
     plotly
 RoxygenNote: 7.1.2

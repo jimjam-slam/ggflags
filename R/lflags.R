@@ -1,11 +1,11 @@
 #' List of country flags
 #'
 #' @docType data
-#' @format A data frame with X rows and X variables:
+#' @format A list of 256 elements of class S4 (`grImport::Picture`), with:
 #' \describe{
-#'   \item{state.name}{the name of the state}
-#'   \item{state.abb}{the name of the abbreviation}
-#'   \item{state.regex}{the regex for that state}
+#'   \item{content}{PictureGroup}
+#'   \item{defs}{PictureDefinitions}
+#'   \item{summary}{PictureSummary}
 #'   ...
 #' }
-".flaglist"
+"lflags"

@@ -1,6 +1,6 @@
 Package: ggflags
 Type: Package
-Version: 0.0.3
+Version: 0.0.4
 Title: Plot flags of the world in ggplot2
 Authors@R: c(
   person("Baptiste", "Auguie",

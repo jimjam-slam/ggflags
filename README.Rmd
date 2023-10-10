@@ -15,9 +15,22 @@ knitr::opts_chunk$set(
 
 ## ggflags: Plot flags of the world in ggplot2
 
-A flag geom for ggplot2
+A flag geom for ggplot2. Uses circular SVG flags.
+
+# Install
+
+Install from R-Universe:
+
+```r
+install.packages("ggflags", repos = c(
+  "https://jimjam-slam.r-universe.dev",
+  "https://cloud.r-project.org"))
+```
+
+# Use
 
 ```{r demo, warning=FALSE}
+library(ggplot2)
 library(ggflags)
 
 set.seed(1234)
@@ -26,6 +39,7 @@ d <- data.frame(
   country = sample(c("ar", "fr", "nz", "gb", "es", "ca", "lv", "qa"), 50, TRUE),
   stringsAsFactors = FALSE
 )
+
 ggplot(d, aes(x = x, y = y, country = country, size = x)) +
   geom_flag() +
   scale_country() +

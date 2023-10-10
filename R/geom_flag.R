@@ -67,7 +67,7 @@ makeContent.flag <- function(x) {
     seq_along(x$country),
     function(ii) {
       grImport2::pictureGrob(
-        picture = .flaglist[[tolower(x$country[[ii]])]],
+        picture = ggflags::lflags[[x$country[[ii]]]],
         x = x$x[ii], y = x$y[ii],
         width = x$size[ii] * grid::unit(1, "mm"),
         height = x$size[ii] * grid::unit(1, "mm"),
@@ -77,6 +77,3 @@ makeContent.flag <- function(x) {
   )
   grid::setChildren(x, do.call(grid::gList, flag_pics))
 }
-
-#' @noRd
-utils::globalVariables(c(".flaglist"))

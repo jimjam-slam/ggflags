@@ -27,16 +27,16 @@ process_flag <- function(input_file) {
 
   # swap circular <mask> for a <clipPath>
   # (assu)
-  svg_string <- sub(
-    "<mask id=\"a\"><circle cx=\"256\" cy=\"256\" r=\"256\" fill=\"#fff\"/></mask>",
-    "<clipPath id=\"a\"><circle cx=\"256\" cy=\"256\" r=\"256\"/></clipPath>",
-    svg_string,
-    fixed = TRUE)
-  svg_string <- sub(
-    pattern = "<g mask=\"url(#a)",
-    replacement = "<g clip-path=\"url(#a)",
-    svg_string,
-    fixed = TRUE)
+  # svg_string <- sub(
+  #   "<mask id=\"a\"><circle cx=\"256\" cy=\"256\" r=\"256\" fill=\"#fff\"/></mask>",
+  #   "<clipPath id=\"a\"><circle cx=\"256\" cy=\"256\" r=\"256\"/></clipPath>",
+  #   svg_string,
+  #   fixed = TRUE)
+  # svg_string <- sub(
+  #   pattern = "<g mask=\"url(#a)",
+  #   replacement = "<g clip-path=\"url(#a)",
+  #   svg_string,
+  #   fixed = TRUE)
 
   # convert to raw and write out
   rsvg_svg(charToRaw(svg_string), file.path("cairo", input_file))

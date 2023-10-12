@@ -25,6 +25,7 @@ Description: A ggplot2 extension that allows you to plot the flags of the world.
   as geom_point does, requiring, at minimum, a two-letter lowercase country code for the country aesthetic, 
   and x and y aesthetics. You can also adjust the size.
 LazyData: TRUE
+LazyDataCompression: xz
 Depends:
     R (>= 3.5.0)
 Imports:

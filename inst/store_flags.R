@@ -54,10 +54,10 @@ for (srcfile in lf)
 # finally, get the processed flags, import with grImport2 and save out
 lf <- list.files(path = "cairo", pattern = glob2rx("*.svg"), full.names = TRUE)
 
-.flaglist <- lapply(lf, readPicture)
-names(.flaglist) <- tolower(gsub("^cairo/|\\.svg", "", lf))
+lflags <- lapply(lf, readPicture)
+names(lflags) <- tolower(gsub("^cairo/|\\.svg", "", lf))
 
-save(.flaglist, file = "lflags.rda")
+save(lflags, file = "lflags.rda", compress = "xz")
 
 # cleanup
 unlink("circle-flags.zip")

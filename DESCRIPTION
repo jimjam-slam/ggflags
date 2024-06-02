@@ -1,6 +1,6 @@
 Package: ggflags
 Type: Package
-Version: 0.0.4
+Version: 0.0.4.9000
 Title: Plot flags of the world in ggplot2
 Authors@R: c(
   person("Baptiste", "Auguie",
@@ -30,9 +30,11 @@ Depends:
     R (>= 3.5.0)
 Imports:
     grid,
-    grImport2,
     ggplot2,
+    ggsvg,
     scales
+Remotes:
+    coolbutuseless/ggsvg
 Encoding: UTF-8
 RoxygenNote: 7.2.3
 URL: https://github.com/jimjam-slam/ggflags

@@ -45,35 +45,85 @@ scale_country <- function(..., guide = "legend") {
 #' @noRd
 GeomFlag <- ggplot2::ggproto("GeomFlag", ggplot2::Geom,
   required_aes = c("x", "y", "country"),
-  default_aes = ggplot2::aes(size = 5, country = "nz"),
+  default_aes = ggplot2::aes(size = 5),
   draw_key = function(data, params, size) {
     flagGrob(0.5, 0.5, country = data$country, size = data$size)
   },
-  draw_group = function(data, panel_scales, coord) {
+  # TODO - draw_panel instead of draw_group?
+  draw_panel = function(data, panel_scales, coord) {
+    message("Start draw_panel")
     coords <- coord$transform(data, panel_scales)
-    flagGrob(coords$x, coords$y, coords$country, coords$size)
+
+    make_flag_grob <- function(i) {
+      flagGrob(
+        coords$x[i],
+        coords$y[i],
+        coords$country[i],
+        coords$size[i]
+      )
+    }
+
+    # build a flag for each coord row
+    svg_grobs <- lapply(seq_len(nrow(coords)), make_flag_grob)
+    flag_tree <- do.call(grid::grobTree, svg_grobs)
+    message("End draw_panel")
+    return(flag_tree)
   }
 )
 
 #' @noRd
 flagGrob <- function(x, y, country, size = 1, alpha = 1) {
-  grid::gTree(x = x, y = y, country = country, size = size, cl = "flag")
+  message("flagGrob")
+  flag_size <- size * grid::unit(1, "mm")
+  flag_grob <- ggsvg::svg_to_rasterGrob(
+    svg_text = ggflags::lflags[[country]],
+    x = x,
+    y = x,
+    width = flag_size,
+    height = flag_size,
+    vp = grid::viewport(
+      x = x, y = y,
+      width = flag_size, height = flag_size)
+    )
+  return(flag_grob)
 }
 
-#' @noRd
-#' @exportS3Method grid::makeContent
-makeContent.flag <- function(x) {
-  flag_pics <- lapply(
-    seq_along(x$country),
-    function(ii) {
-      grImport2::pictureGrob(
-        picture = ggflags::lflags[[x$country[[ii]]]],
-        x = x$x[ii], y = x$y[ii],
-        width = x$size[ii] * grid::unit(1, "mm"),
-        height = x$size[ii] * grid::unit(1, "mm"),
-        distort = FALSE
-      )
-    }
-  )
-  grid::setChildren(x, do.call(grid::gList, flag_pics))
-}
+# #' @noRd
+# #' @exportS3Method grid::makeContent
+# makeContent.flag <- function(x) {
+#   message("Making flags:")
+#   message("Countries:")
+#   print(x$country)
+#   message("X:")
+#   print(x$x)
+#   message("Y:")
+#   print(x$y)
+#   message("Size:")
+#   print(x$size)
+
+#   flag_pics <- lapply(
+#     seq_along(x$country),
+#     function(ii) {
+#       # grImport2::pictureGrob(
+#       #   picture = ggflags::lflags[[x$country[[ii]]]],
+#       #   x = x$x[ii], y = x$y[ii],
+#       #   width = x$size[ii] * grid::unit(1, "mm"),
+#       #   height = x$size[ii] * grid::unit(1, "mm"),
+#       #   distort = FALSE
+#       # )
+#       message(paste("Flag ", ii))
+#       flag_size <- x$size[ii] * grid::unit(1, "mm")
+#       flag_grob <- ggsvg::svg_to_rasterGrob(
+#         svg_text = ggflags::lflags[[x$country[[ii]]]],
+#         x = x$x[ii],
+#         y = x$y[ii],
+#         width = flag_size,
+#         height = flag_size,
+#         vp = grid::viewport(width = flag_size, height = flag_size)
+#         )
+#       message("Passed rasterGrob construction")
+#       return(flag_grob)
+#     }
+#   )
+#   grid::setChildren(x, do.call(grid::gList, flag_pics))
+# }

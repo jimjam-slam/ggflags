@@ -1,11 +1,5 @@
-#' List of country flags
+#' List of flags
 #'
 #' @docType data
-#' @format A list of 248 elements of class S4 (`grImport::Picture`), with:
-#' \describe{
-#'   \item{content}{PictureGroup}
-#'   \item{defs}{PictureDefinitions}
-#'   \item{summary}{PictureSummary}
-#'   ...
-#' }
+#' @format A list of 248 elements of class character
 "lflags"

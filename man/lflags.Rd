@@ -3,20 +3,14 @@
 \docType{data}
 \name{lflags}
 \alias{lflags}
-\title{List of country flags}
+\title{List of flags}
 \format{
-A list of 256 elements of class S4 (`grImport::Picture`), with:
-\describe{
-  \item{content}{PictureGroup}
-  \item{defs}{PictureDefinitions}
-  \item{summary}{PictureSummary}
-  ...
-}
+A list of 248 elements of class character
 }
 \usage{
 lflags
 }
 \description{
-List of country flags
+List of flags
 }
 \keyword{datasets}

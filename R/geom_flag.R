@@ -20,14 +20,25 @@
 #'   geom_flag() +
 #'   scale_country()
 #' @export
-geom_flag <- function(mapping = NULL, data = NULL, stat = "identity",
-                      position = "identity", na.rm = FALSE, show.legend = NA,
-                      inherit.aes = TRUE, ...) {
+geom_flag <- function(
+  mapping = NULL, data = NULL, stat = "identity",
+  position = "identity", na.rm = FALSE, show.legend = NA,
+  inherit.aes = TRUE, ...) {
   ggplot2::layer(
     geom = GeomFlag, mapping = mapping, data = data, stat = stat,
     position = position, show.legend = show.legend, inherit.aes = inherit.aes,
     params = list(na.rm = na.rm, ...)
   )
+}
+
+#' @title Draw flag key
+#' @param country A country whose fla gwill be used for the legend key
+#' @return A function that draws the flag key
+#' @export
+draw_key_flag <- function(country = "nz") {
+  function(data, params, size) {
+    flagGrob(0.5, 0.5, country = country, size = data$size)
+  }
 }
 
 #' @title scale countries
@@ -46,34 +57,39 @@ scale_country <- function(..., guide = "legend") {
 GeomFlag <- ggplot2::ggproto("GeomFlag", ggplot2::Geom,
   required_aes = c("x", "y", "country"),
   default_aes = ggplot2::aes(size = 5, country = "nz"),
-  draw_key = function(data, params, size) {
-    flagGrob(0.5, 0.5, country = data$country, size = data$size)
-  },
-  draw_group = function(data, panel_scales, coord) {
+  draw_key = draw_key_flag("nz"),
+  draw_panel = function(data, panel_scales, coord) {
     coords <- coord$transform(data, panel_scales)
-    flagGrob(coords$x, coords$y, coords$country, coords$size)
+
+    make_flag_grob <- function(i) {
+      flagGrob(
+        coords$x[i],
+        coords$y[i],
+        coords$country[i],
+        coords$size[i]
+      )
+    }
+
+    # build a flag for each coord row
+    svg_grobs <- lapply(seq_len(nrow(coords)), make_flag_grob)
+    flag_tree <- do.call(grid::grobTree, svg_grobs)
+    return(flag_tree)
   }
 )
 
 #' @noRd
 flagGrob <- function(x, y, country, size = 1, alpha = 1) {
-  grid::gTree(x = x, y = y, country = country, size = size, cl = "flag")
-}
-
-#' @noRd
-#' @exportS3Method grid::makeContent
-makeContent.flag <- function(x) {
-  flag_pics <- lapply(
-    seq_along(x$country),
-    function(ii) {
-      grImport2::pictureGrob(
-        picture = ggflags::lflags[[x$country[[ii]]]],
-        x = x$x[ii], y = x$y[ii],
-        width = x$size[ii] * grid::unit(1, "mm"),
-        height = x$size[ii] * grid::unit(1, "mm"),
-        distort = FALSE
-      )
-    }
-  )
-  grid::setChildren(x, do.call(grid::gList, flag_pics))
+  flag_size <- size * grid::unit(1, "mm")
+  flag_grob <- ggsvg::svg_to_rasterGrob(
+    svg_text = ggflags::lflags[[country]],
+    width = grid::convertUnit(flag_size, "pt") * 4,
+    height = grid::convertUnit(flag_size, "pt") * 4,
+    just = "centre",
+    vp = grid::viewport(
+      x = x, y = y,
+      # TODO - currently adjusting this to scale to taste, but
+      # it feels like it's nonlinear...
+      width = flag_size * 0.75, height = flag_size * 0.75)
+    )
+  return(flag_grob)
 }

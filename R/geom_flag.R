@@ -20,9 +20,10 @@
 #'   geom_flag() +
 #'   scale_country()
 #' @export
-geom_flag <- function(mapping = NULL, data = NULL, stat = "identity",
-                      position = "identity", na.rm = FALSE, show.legend = NA,
-                      inherit.aes = TRUE, ...) {
+geom_flag <- function(
+  mapping = NULL, data = NULL, stat = "identity",
+  position = "identity", na.rm = FALSE, show.legend = NA,
+  inherit.aes = TRUE, ...) {
   ggplot2::layer(
     geom = GeomFlag, mapping = mapping, data = data, stat = stat,
     position = position, show.legend = show.legend, inherit.aes = inherit.aes,
@@ -52,6 +53,7 @@ GeomFlag <- ggplot2::ggproto("GeomFlag", ggplot2::Geom,
   # TODO - draw_panel instead of draw_group?
   draw_panel = function(data, panel_scales, coord) {
     message("Start draw_panel")
+    # browser()
     coords <- coord$transform(data, panel_scales)
 
     make_flag_grob <- function(i) {
@@ -73,14 +75,15 @@ GeomFlag <- ggplot2::ggproto("GeomFlag", ggplot2::Geom,
 
 #' @noRd
 flagGrob <- function(x, y, country, size = 1, alpha = 1) {
-  message("flagGrob")
+  message("flagGrob: ", country, " at ", x, ", ", y, " with size ", size)
   flag_size <- size * grid::unit(1, "mm")
   flag_grob <- ggsvg::svg_to_rasterGrob(
     svg_text = ggflags::lflags[[country]],
-    x = x,
-    y = x,
-    width = flag_size,
-    height = flag_size,
+    # x = x,
+    # y = y,
+    width = grid::convertUnit(flag_size, "pt") * 4,
+    height = grid::convertUnit(flag_size, "pt") * 4,
+    just = "centre",
     vp = grid::viewport(
       x = x, y = y,
       width = flag_size, height = flag_size)
